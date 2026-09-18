@@ -1,0 +1,9 @@
+# OAuth / credentials (never commit these)
+client_secret*.json
+client_secrets.json
+token.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/

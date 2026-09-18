@@ -215,6 +215,13 @@
         return String(n);
       }
 
+      function formatRounded(n) {
+        if (typeof n !== "number" || !isFinite(n)) return null;
+        if (n >= 1000000) return Math.round(n / 1000000) + "M";
+        if (n >= 1000) return Math.round(n / 1000) + "K";
+        return String(n);
+      }
+
       function apply(data) {
         Object.keys(fields).forEach(function (id) {
           var el = document.getElementById(id);
@@ -227,7 +234,7 @@
         Object.keys(trackFields).forEach(function (id) {
           var el = document.getElementById(id);
           if (!el) return;
-          var text = formatCount(videos[trackFields[id]]);
+          var text = formatRounded(videos[trackFields[id]]);
           if (text) el.textContent = text + "+ views";
         });
       }

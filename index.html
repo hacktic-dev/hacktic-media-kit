@@ -81,15 +81,15 @@
           <div class="track-cards" aria-label="Past video performance">
             <article class="mini-card">
               <img src="assets/track-playstation.jpg" alt="Past Hacktic video thumbnail featuring a PlayStation-style Minecraft experiment">
-              <strong>498K+ views</strong>
+              <strong id="stat-track-playstation">498K+ views</strong>
             </article>
             <article class="mini-card">
               <img src="assets/track-blender.jpg" alt="Past Hacktic video thumbnail featuring a Blender and Minecraft experiment">
-              <strong>148K+ views</strong>
+              <strong id="stat-track-blender">148K+ views</strong>
             </article>
             <article class="mini-card">
               <img src="assets/track-voxel.jpg" alt="Past Hacktic video thumbnail showing before and after voxel graphics">
-              <strong>116K+ views</strong>
+              <strong id="stat-track-voxel">116K+ views</strong>
             </article>
           </div>
         </div>
@@ -198,6 +198,12 @@
         "stat-lifetime-views": "lifetimeViews"
       };
 
+      var trackFields = {
+        "stat-track-playstation": "track-playstation",
+        "stat-track-blender": "track-blender",
+        "stat-track-voxel": "track-voxel"
+      };
+
       function trim(value, maxDecimals) {
         return value.toFixed(maxDecimals).replace(/\.?0+$/, "");
       }
@@ -215,6 +221,14 @@
           if (!el) return;
           var text = formatCount(data[fields[id]]);
           if (text) el.textContent = text;
+        });
+
+        var videos = data.videos || {};
+        Object.keys(trackFields).forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          var text = formatCount(videos[trackFields[id]]);
+          if (text) el.textContent = text + "+ views";
         });
       }
 

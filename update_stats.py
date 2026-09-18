@@ -40,6 +40,15 @@ ANALYTICS_MAX_DAYS_BACK = 14
 VIEWS_OVERRIDE_UNTIL = "2026-09-21"
 VIEWS_OVERRIDE_VALUE = 119500
 
+# The three "Proven track record" videos shown on the site, keyed by the
+# element IDs in index.html. Their lifetime view counts come from the Data API,
+# which updates near-real-time (no Analytics lag).
+TRACK_VIDEOS = {
+    "track-playstation": "yIkDdE-utjA",  # How to create a PS1 style horror game in Unity
+    "track-blender": "8--xYWCY_bc",      # How to make PS1 style models in Blender
+    "track-voxel": "WKTZgf7ZDGs",        # Retro low res pixelated look in Unity
+}
+
 
 def require_env(name):
     value = os.environ.get(name, "").strip()
@@ -96,6 +105,25 @@ def get_channel_stats(youtube, channel_id):
     subscribers = int(statistics["subscriberCount"])
     lifetime_views = int(statistics["viewCount"])
     return subscribers, lifetime_views
+
+
+def get_track_video_views(youtube):
+    """Return {label: view_count} for each configured track-record video."""
+    ids = list(TRACK_VIDEOS.values())
+    response = youtube.videos().list(part="statistics", id=",".join(ids)).execute()
+    by_id = {}
+    for item in response.get("items") or []:
+        view_count = (item.get("statistics") or {}).get("viewCount")
+        if view_count is not None:
+            by_id[item["id"]] = int(view_count)
+
+    missing = [label for label, vid in TRACK_VIDEOS.items() if vid not in by_id]
+    if missing:
+        raise RuntimeError(
+            f"Could not retrieve view counts for track videos: {', '.join(missing)}"
+        )
+
+    return {label: by_id[vid] for label, vid in TRACK_VIDEOS.items()}
 
 
 def query_analytics_views(analytics, channel_id, start, end):
@@ -178,6 +206,7 @@ def main():
         channel_id = resolve_channel_id(youtube, channel_id)
         subscribers, lifetime_views = get_channel_stats(youtube, channel_id)
         views_28_days, analytics_end = get_latest_28_day_views(analytics, channel_id)
+        track_video_views = get_track_video_views(youtube)
 
         if date.today() <= date.fromisoformat(VIEWS_OVERRIDE_UNTIL):
             print(
@@ -207,12 +236,13 @@ def main():
         "lifetimeViews": lifetime_views,
         "analyticsEndDate": analytics_end.isoformat(),
         "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "videos": track_video_views,
     }
 
     existing = load_existing(STATS_PATH)
     if existing and all(
         existing.get(key) == new_stats[key]
-        for key in ("subscribers", "views28Days", "lifetimeViews")
+        for key in ("subscribers", "views28Days", "lifetimeViews", "videos")
     ):
         print("Headline stats unchanged; not rewriting stats.json.")
         return

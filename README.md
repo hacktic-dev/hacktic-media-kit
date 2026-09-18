@@ -20,9 +20,10 @@ Because all asset paths are relative, this works both at `username.github.io` an
 - Styling: `styles.css`
 - Images: `assets/`
 
-The headline channel figures (subscribers, last-28-days views, lifetime views) are
-refreshed automatically once a day from YouTube. See "Automated YouTube stats" below.
-The audience-age figure and all other copy are static.
+The headline channel figures (subscribers, last-28-days views, lifetime views)
+and the three "Proven track record" video view counts are refreshed automatically
+once a day from YouTube. See "Automated YouTube stats" below. The audience-age
+figure and all other copy are static.
 
 ## Local preview
 

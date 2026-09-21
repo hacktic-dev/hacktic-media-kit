@@ -37,7 +37,7 @@ ANALYTICS_MAX_DAYS_BACK = 14
 # date is on or before VIEWS_OVERRIDE_UNTIL, use VIEWS_OVERRIDE_VALUE instead of
 # the API number. After that date it disengages automatically and the live API
 # value is used again. To remove the override early, delete these two lines.
-VIEWS_OVERRIDE_UNTIL = "2026-09-21"
+VIEWS_OVERRIDE_UNTIL = "2026-09-20"
 VIEWS_OVERRIDE_VALUE = 119500
 
 # The three "Proven track record" videos shown on the site, keyed by the

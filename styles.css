@@ -309,6 +309,14 @@ nav a:hover { color: var(--red); }
   color: #54504a;
 }
 
+.project-copy .project-performance {
+  margin-top: 12px;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .archive {
   margin-top: 118px;
   padding-top: 42px;

@@ -1,12 +1,12 @@
 {
   "subscribers": 11400,
-  "views28Days": 52494,
-  "lifetimeViews": 1640381,
-  "analyticsEndDate": "2026-11-23",
-  "updatedAt": "2026-11-24T20:16:59Z",
+  "views28Days": 51082,
+  "lifetimeViews": 1641645,
+  "analyticsEndDate": "2026-11-24",
+  "updatedAt": "2026-11-25T19:30:46Z",
   "videos": {
-    "track-playstation": 534179,
-    "track-blender": 167294,
-    "track-voxel": 146637
+    "track-playstation": 534438,
+    "track-blender": 167405,
+    "track-voxel": 146851
   }
 }
